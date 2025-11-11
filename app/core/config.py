@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     SECRET_KEY: str
 
+    @property
+    def DATABASE_URL(self) -> str:
+        return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
     class Config:
         env_file = ".env"
 
