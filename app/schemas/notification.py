@@ -28,4 +28,4 @@ class NotificationOut(NotificationBase):
     updated_at: datetime
 
     class Config:
-        from_attributes = True  # Pydantic v2 compatible
+        from_attributes = True  

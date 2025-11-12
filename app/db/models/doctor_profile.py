@@ -8,15 +8,21 @@ class DoctorProfile(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(100), nullable=False)
     specialization = Column(String(100), nullable=False)
+    degree = Column(String(255), nullable=True)
     about = Column(Text, nullable=True)
     consultation_fee = Column(Float, default=0.0)
     languages = Column(String(100), nullable=True)
     photo_url = Column(String(255), nullable=True)
+
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Relationships
-    user = relationship("User", back_populates="doctor_profile")
+    user = relationship("User", back_populates="doctor_profile", uselist=False)
     appointments = relationship("Appointment", back_populates="doctor")
-    availability_slots = relationship("DoctorAvailability", back_populates="doctor", cascade="all, delete-orphan")
+    availability_slots = relationship(
+        "DoctorAvailability",
+        back_populates="doctor",
+        cascade="all, delete-orphan"
+    )

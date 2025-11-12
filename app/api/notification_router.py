@@ -18,19 +18,12 @@ async def create_notification_endpoint(notification: NotificationCreate, db: Asy
     return await create_notification(db, notification)
 
 @router.get("/", response_model=List[NotificationOut])
-async def list_notifications(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
+async def list_notifications(skip: int = 1, limit: int = 100, db: AsyncSession = Depends(get_db)):
     return await get_notifications(db, skip=skip, limit=limit)
 
 @router.get("/{notification_id}", response_model=NotificationOut)
 async def get_notification_endpoint(notification_id: int, db: AsyncSession = Depends(get_db)):
     db_notification = await get_notification(db, notification_id)
-    if not db_notification:
-        raise HTTPException(status_code=404, detail="Notification not found")
-    return db_notification
-
-@router.put("/{notification_id}", response_model=NotificationOut)
-async def update_notification_endpoint(notification_id: int, notification: NotificationUpdate, db: AsyncSession = Depends(get_db)):
-    db_notification = await update_notification(db, notification_id, notification)
     if not db_notification:
         raise HTTPException(status_code=404, detail="Notification not found")
     return db_notification

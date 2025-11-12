@@ -30,11 +30,10 @@ class AppointmentOut(AppointmentBase):
     id: int
     patient_id: int
     doctor_id: int
-    status: AppointmentStatus
-    booking_time: datetime
     fee: float
+    status: AppointmentStatus
     created_at: datetime
     updated_at: datetime
 
     class Config:
-        from_attributes = True  # Pydantic v2 compatible
+        from_attributes = True

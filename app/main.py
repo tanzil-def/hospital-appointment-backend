@@ -1,6 +1,7 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
-# Routers
+
 from app.api.auth_router import router as auth_router
 from app.api.user_router import router as user_router
 from app.api.admin_router import router as admin_router
@@ -17,16 +18,12 @@ app = FastAPI(
     description="API for managing hospital appointments, doctors, availability, notifications, documents, insurance, and users."
 )
 
-# ----------------------
-# Root endpoint
-# ----------------------
+
 @app.get("/")
 async def root():
     return {"message": "Hospital Appointment Booking API is running 🚀"}
 
-# ----------------------
-# Include all routers
-# ----------------------
+
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(admin_router, prefix="/admin", tags=["Admin"])
@@ -36,3 +33,6 @@ app.include_router(availability_router, prefix="/doctor-availability", tags=["Do
 app.include_router(notification_router, prefix="/notifications", tags=["Notifications"])
 app.include_router(document_router, prefix="/documents", tags=["Documents"])
 app.include_router(insurance_router, prefix="/insurance", tags=["Insurance"])
+
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
